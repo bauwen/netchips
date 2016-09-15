@@ -1,0 +1,1694 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="http://g2f.nl/013tozd" />
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet" />
+    <title>Netchips</title>
+    <style>
+    body {
+        margin: 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("http://g2f.nl/03u34bq");
+        background-color: rgb(40, 40, 40);
+        font: 16px Exo, sans-serif;
+        color: white;
+        overflow-x: hidden;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+    
+    input, button, select {
+        font-family: Exo, sans-serif;
+    }
+    
+    .textbutton {
+        cursor: pointer;
+        color: orange;
+    }
+    
+    .textbutton:hover {
+        color: gray;
+    }
+    
+    .episode {
+        cursor: pointer;
+        color: white;
+    }
+    
+    .episode:hover {
+        color: orange;
+    }
+    
+    .button {
+        cursor: pointer;
+        background: orange;
+        color: rgb(20, 20, 20);
+        border-radius: 2px;
+        padding: 8px 24px;
+        font-weight: bold;
+        font-size: 16px;
+        border: 2px solid transparent;
+    }
+    
+    .button:hover {
+        background: transparent;
+        color: orange;
+        border: 2px solid orange;
+    }
+    
+    .nowatchbutton {
+        cursor: pointer;
+        background: tomato;
+        color: rgb(20, 20, 20);
+        border: 2px solid transparent;
+        padding: 4px;
+        font-weight: bold;
+        font-size: 14px;
+        border-radius: 2px;
+    }
+    
+    .nowatchbutton:hover {
+        background: transparent;
+        color: tomato;
+        border: 2px solid tomato;
+    }
+    
+    .watchbutton {
+        cursor: pointer;
+        background: green;
+        color: rgb(20, 20, 20);
+        border: 2px solid transparent;
+        padding: 4px;
+        font-weight: bold;
+        font-size: 14px;
+        border-radius: 2px;
+    }
+    
+    .watchbutton:hover {
+        background: transparent;
+        color: green;
+        border: 2px solid green;
+    }
+    
+    .notrackbutton {
+        cursor: pointer;
+        background: gray;
+        color: rgb(20, 20, 20);
+        border-radius: 2px;
+        padding: 8px 24px;
+        font-weight: bold;
+        font-size: 16px;
+        border: 4px solid transparent;
+    }
+    
+    .notrackbutton:hover {
+        background: transparent;
+        color: gray;
+        border: 4px solid gray;
+    }
+    
+    .trackbutton {
+        cursor: pointer;
+        background: yellow;
+        color: rgb(20, 20, 20);
+        border-radius: 2px;
+        padding: 8px 24px;
+        font-weight: bold;
+        font-size: 16px;
+        border: 4px solid transparent;
+    }
+    
+    .trackbutton:hover {
+        background: transparent;
+        color: yellow;
+        border: 4px solid yellow;
+    }
+    
+    .otherbutton {
+        cursor: pointer;
+        background: gray;
+        color: rgb(20, 20, 20);
+        border-radius: 2px;
+        padding: 6px 48px;
+        font-weight: bold;
+        font-size: 14px;
+        border: 2px solid transparent;
+    }
+    
+    .otherbutton:hover {
+        background: transparent;
+        color: gray;
+        border: 2px solid gray;
+    }
+    
+    .suggestion:hover {
+        background: rgb(40, 40, 40);
+        border: 0px solid rgb(60, 60, 60);
+        border-radius: 4px;
+        box-shadow: 0px 0px 6px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    .image {
+        box-shadow: 0px 0px 6px 6px rgba(0, 0, 0, 0.5);
+        border-radius: 2px;
+        width: 100px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+    }
+    
+    #div_topbar {
+        left: 0px;
+        top: 0px;
+        z-index: 100;
+        width: 100%;
+        background: linear-gradient(rgb(90, 95, 100), rgb(60, 65, 70));
+        padding: 10px 12px;
+        border-bottom: 1px solid gray;
+        font-size: 16px;
+    }
+    
+    #input_search {
+        font-size: 14px;
+        padding: 3px 6px;
+    }
+    
+    #select_category {
+        font-size: 14px;
+        padding: 2px 4px;
+        width: 130px;
+    }
+    
+    #ul_episodes {
+        color: rgba(255, 255, 255, 0.2);
+        list-style-type: square;
+        font-size: 16px;
+    }
+    
+    #ul_episodes li:nth-child(odd) div{
+        background: rgba(40, 40, 40, 0.8);
+    }
+    
+    #ul_episodes li:nth-child(even) div {
+        background: rgba(40, 40, 40, 0.8);
+    }
+    </style>
+</head>
+<body>
+
+<div id="div_topbar" align="center">
+    <div style="display: inline-block; margin: 12px 6vw 12px 0px">
+        <span class="textbutton" onclick="goHome()"><b>🏠&nbsp;&nbsp;Netchips</b></span>
+    </div>
+    <div style="display: inline-block; margin: 12px 6vw 12px 0px">
+        <span style="cursor: pointer; font-weight: bold" onclick="radio_series.checked = true; radio_series.onchange()">Series&nbsp;</span>
+        <input id="radio_series" type="radio" name="type">&nbsp;&nbsp;
+        <input id="radio_films" type="radio" name="type" checked>
+        <span style="cursor: pointer; font-weight: bold" onclick="radio_films.checked = true; radio_films.onchange()">&nbsp;Films</span>
+    </div>
+    <div style="display: inline-block; margin: 12px 6vw 12px 0px">
+        <input id="input_search" type="text" size="24" placeholder="Zoek hier">
+        <button onclick="search()" style="font-size: 15px">🔍</button>
+    </div>
+    <div style="display: inline-block; margin: 12px 6vw 12px 0px">
+        <b>Categorie:</b>&nbsp;&nbsp;
+        <select id="select_category"></select>
+    </div>
+</div>
+
+<div style="margin: 48px 32px">
+    <div id="div_home" align="center" style="display: none">
+        <div id="div_title_tracked_series" style="font-size: 24px; color: orange; margin-bottom: 32px"><b>Series die je volgt:</b></div>
+        <div id="div_tracked_series"></div>
+        <div id="div_title_tracked_films" style="font-size: 24px; color: orange; margin-top: 64px; margin-bottom: 32px"><b>Films die je wilt bekijken:</b></div>
+        <div id="div_tracked_films"></div>
+        <div style="margin-top: 96px"><button class="button" onclick="clearStorage()">Verwijder informatie</button></div>
+    </div>
+    
+    <div id="div_info" style="margin: 16px 16px 32px 16px; display: none">
+        <div id="div_overview" align="center">
+            <table><tr>
+            <td style="padding-right: 32px">
+                <img id="img_overview" class="image" src="">
+            </td>
+            <td>
+                <div id="div_title" style="font-size: 42px; font-weight: bold; margin-bottom: 8px"></div>
+                <span style="font-size: 16px; color: rgb(120, 140, 160)">
+                    <span id="span_rate" style="color: rgb(200, 200, 0)"></span>&nbsp;&nbsp;•&nbsp;&nbsp;
+                    <span id="span_genres"></span>&nbsp;&nbsp;•&nbsp;&nbsp;
+                    <span id="span_release"></span>
+                    <span id="span_seasons"></span>
+                </span><br><br>
+                <span id="span_description" style="font-size: 14px"></span><br><br>
+                <span id="span_trailer" style="float: right"></span>
+            </td>
+            </tr></table>
+        </div>
+        
+        <div id="div_seasons" align="left" style="margin: 32px 12px 64px 12px; display: none"></div>
+        
+        <div align="center">
+            <ul id="ul_episodes" style="margin-top: 48px; display: none"></ul>
+            
+            <iframe id="iframe_trailer" src="" width="480" height="270" scrolling="no" frameborder="0" allowfullscreen="true" style="margin-top: 32px; background: gray; display: none"></iframe>
+            
+            <div id="div_video" style="margin: 64px; display: none">
+                <div id="div_episodetitle" style="margin-bottom: 24px; font-weight: bold; font-size: 32px"></div>
+                <div id="div_player"><video id="video_player" src="" style="background: gray" controls></video></div>
+                <iframe id="iframe_player" src="" scrolling="no" frameborder="2" allowfullscreen="true" style="background: gray; display: none"></iframe>
+                <div id="div_settings" style="margin-top: 48px; margin-bottom: 64px"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="div_suggestions" align="center" style="margin-top: 16px; margin-bottom: 32px"></div>
+
+    <div id="div_footer" align="center" style="margin: 96px; color: orange"></div>
+    
+    <button id="button_other" class="otherbutton" onclick="findOtherVideo()" style="display: none">Zoek een andere video...</button>
+    
+    <div id="div_statusinfo">
+        <span id="span_version" style="color: rgba(100, 100, 100, 0.5)">Versie 1.2</span>
+        <span id="span_port" style="color: rgba(100, 100, 100, 0.5); float: right"></span>
+    </div>
+</div>
+
+<script> // TODO: electron integration -- update system -- done!
+
+var LOCATION = window.location.href;
+if (LOCATION.indexOf("?") > 0) {
+    LOCATION = "http://" + LOCATION.slice(LOCATION.indexOf("?") + 1) + "/";
+}
+
+var storage = {
+    "films": {},
+    "series": {},
+    "episodes": {}
+};
+var requestQueue = [];
+var requestHash = "";
+var suggestions = [];
+var suggestion = {};
+var hosts = [];
+var ii = 0;
+var jj = 0;
+var seasons = [];
+var query = "";
+var category = "";
+var films = true;
+var page = 1;
+var seasonNumber = 0;
+var episodeNumber = 0;
+var backgroundChanged = false;
+var flashInterval = null;
+var syncInterval = null;
+var clickthroughSeason = 0;
+var currentSubtitles = "";
+
+
+/* ELEMENTS */
+
+var div_statusinfo = document.getElementById("div_statusinfo");
+var span_version = document.getElementById("span_version");
+var span_port = document.getElementById("span_port");
+
+var div_topbar = document.getElementById("div_topbar");
+var radio_series = document.getElementById("radio_series");
+var radio_films = document.getElementById("radio_films");
+var input_search = document.getElementById("input_search");
+var select_category = document.getElementById("select_category");
+
+var div_home = document.getElementById("div_home");
+var div_title_tracked_series = document.getElementById("div_title_tracked_series");
+var div_tracked_series = document.getElementById("div_tracked_series");
+var div_title_tracked_films = document.getElementById("div_title_tracked_films");
+var div_tracked_films = document.getElementById("div_tracked_films");
+var div_suggestions = document.getElementById("div_suggestions");
+var div_footer = document.getElementById("div_footer");
+
+var div_info = document.getElementById("div_info");
+var div_overview = document.getElementById("div_overview");
+var img_overview = document.getElementById("img_overview");
+var div_title = document.getElementById("div_title");
+var span_release = document.getElementById("span_release");
+var span_genres = document.getElementById("span_genres");
+var span_rate = document.getElementById("span_rate");
+var span_seasons = document.getElementById("span_seasons");
+var span_description = document.getElementById("span_description");
+var span_trailer = document.getElementById("span_trailer");
+var iframe_trailer = document.getElementById("iframe_trailer");
+
+var div_seasons = document.getElementById("div_seasons");
+var ul_episodes = document.getElementById("ul_episodes");
+
+var div_video = document.getElementById("div_video");
+var div_episodetitle = document.getElementById("div_episodetitle");
+var div_player = document.getElementById("div_player");
+var video_player = document.getElementById("video_player");
+var iframe_player = document.getElementById("iframe_player");
+var div_settings = document.getElementById("div_settings");
+var button_other = document.getElementById("button_other");
+
+
+/* EVENTS */
+
+radio_series.onchange = function () {
+    select_category.innerHTML = "<option>Selecteer hier</option>" +
+    "<option>Populaire series</option>";
+};
+
+radio_films.onchange = function () {
+    select_category.innerHTML = "<option>Selecteer hier</option>" +
+    "<option>Recente films</option>" +
+    "<option>Actie</option>" +
+    "<option>Avontuur</option>" +
+    "<option>Animatie</option>" +
+    "<option>Biografie</option>" +
+    "<option>Komedie</option>" +
+    "<option>Misdaad</option>" +
+    "<option>Documentaire</option>" +
+    "<option>Drama</option>" +
+    "<option>Familie</option>" +
+    "<option>Fantasie</option>" +
+    "<option>Geschiedenis</option>" +
+    "<option>Horror</option>" +
+    "<option>Musical</option>" +
+    "<option>Mysterie</option>" +
+    "<option>Romantiek</option>" +
+    "<option>Science Fiction</option>";
+};
+
+select_category.oninput = function () {
+    var option = select_category.options[select_category.selectedIndex];
+    
+    if (option.innerHTML == "Selecteer hier") {
+        return;
+    }
+    
+    if (option.innerHTML == "Populaire series") {
+        clearBoard();
+        suggestions = [];
+        div_home.style.display = "none";
+        div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar populaire series...</i></span>';
+        
+        for (var i = 0; i < 3; i += 1) {
+            sendRequest("series_general", {page: i + 1}, onSeriesGeneral);
+        }
+        return;
+    }
+    
+    if (option.innerHTML == "Recente films") {
+        clearBoard();
+        suggestions = [];
+        div_home.style.display = "none";
+        div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar recente films...</i></span>';
+        
+        sendRequest("films_general", {}, onFilmsGeneral);
+        return;
+    }
+    
+    switch (option.innerHTML) {
+        case "Actie":
+            genre = "Action";
+            break;
+        case "Avontuur":
+            genre = "Adventure";
+            break;
+        case "Animatie":
+            genre = "Animation";
+            break;
+        case "Biografie":
+            genre = "Biography";
+            break;
+        case "Komedie":
+            genre = "Comedy";
+            break;
+        case "Misdaad":
+            genre = "Crime";
+            break;
+        case "Documentaire":
+            genre = "Documentary";
+            break;
+        case "Drama":
+            genre = "Drama";
+            break;
+        case "Familie":
+            genre = "Family";
+            break;
+        case "Fantasie":
+            genre = "Fantasy";
+            break;
+        case "Geschiedenis":
+            genre = "History";
+            break;
+        case "Horror":
+            genre = "Horror";
+            break;
+        case "Musical":
+            genre = "Musical";
+            break;
+        case "Mysterie":
+            genre = "Mystery";
+            break;
+        case "Romantiek":
+            genre = "Romance";
+            break;
+        case "Science Fiction":
+            genre = "Sci-Fi";
+            break;
+    }
+    
+    clearBoard();
+    suggestions = [];
+    
+    div_home.style.display = "none";
+    div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar <b>' + option.innerHTML.toLowerCase() + '</b> films...</i></span>';
+    
+    page = 1;
+    sendRequest("films_genre", {page: page, genre: genre}, onFilmsGenre);
+};
+
+input_search.onkeydown = function (event) {
+    var key = event.keyCode || event.which;
+    
+    if (key == "13") {
+        event.preventDefault();
+        search();
+    }
+};
+
+
+/* SERIES */
+
+function onSeriesGeneral(err, body) {
+    if (err) {
+        showError(err);
+        return;
+    }
+    
+    films = false;
+    div_footer.innerHTML = "";
+    
+    var html = "";
+    
+    for (var i = 0; i < body.list.length; i += 1) {
+        var suggestion = body.list[i];
+        
+        var title = suggestion.title;
+        var image = suggestion.image;
+        var release = suggestion.release;
+        
+        html += createSuggestion(title, image, release, suggestions.length + i, "serie");
+    }
+    
+    suggestions = suggestions.concat(body.list);
+    div_suggestions.innerHTML += html;
+}
+
+function onSeriesSearch(err, body) {
+    if (err) {
+        showError(err);
+        return;
+    }
+    
+    if (page < 5 && !body.last) {
+        page += 1;
+        sendRequest("series_search", {page: page, query: query}, onSeriesSearch);
+        div_footer.innerHTML = "Bezig met zoeken naar meerdere series...";
+    } else {
+        div_footer.innerHTML = "Staat je serie er niet bij? Wees er zeker van dat de titel correct is ingegeven.";
+    }
+    
+    var html = "";
+    
+    for (var i = 0; i < body.list.length; i += 1) {
+        var suggestion = body.list[i];
+        
+        var title = suggestion.title;
+        var image = suggestion.image;
+        var release = suggestion.release;
+        
+        html += createSuggestion(title, image, release, suggestions.length + i, "serie");
+    }
+    
+    films = false;
+    suggestions = suggestions.concat(body.list);
+    div_suggestions.innerHTML += html;
+}
+
+function onSeriesInfo(err, body) {
+    if (err) {
+        showError(err);
+        return;
+    }
+    
+    seasons = body.seasons;
+    div_footer.innerHTML = "";
+    
+    var title = suggestion.title;
+    var image = suggestion.image;
+    var release = body.release;
+    var genres = body.genres;
+    var rate = parseFloat(body.rate);
+    var description = body.description;
+    var background = body.background;
+    
+    if (!false && background) {
+        document.body.style["background"] = 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("' + background + '")';
+        document.body.style["background-repeat"] = "no-repeat";
+        document.body.style["background-attachment"] = "fixed";
+        document.body.style["background-size"] = "cover";
+        backgroundChanged = true;
+    }
+    
+    var stars = "★★★★☆";
+    if (!isNaN(rate)) {
+        var score = Math.round(rate / 2);
+        stars = "★".repeat(score) + "☆".repeat(5 - score);
+    }
+    
+    img_overview.src = image;
+    div_title.innerHTML = title;
+    span_release.innerHTML = release;
+    span_genres.innerHTML = translateGenres(genres).join(", ");
+    span_rate.innerHTML = stars;
+    span_rate.title = body.rate + "/10";
+    span_seasons.innerHTML = "&nbsp;&nbsp;•&nbsp;&nbsp;" + seasons.length + " seizoen" + "en".repeat(seasons.length == 1 ? 0 : 1);
+    span_description.innerHTML = description;
+    
+    var seasonbar = '<div style="display: inline-block">' +
+    '<span class="textbutton" onclick="listSeason(' + "document.getElementById('select_season').selectedIndex" + ')" style="font-size: 32px; font-weight: bold;">Selecteer seizoen:</span>&nbsp;&nbsp;' +
+    '<select id="select_season" onchange="listSeason(this.selectedIndex)" style="font-weight: bold; font-size: 24px; padding: 0px 4px; color: darkorange">';
+    
+    for (var i = 0; i < seasons.length; i += 1) {
+        seasonbar += "<option>" + (i + 1) + "</option>";
+    }
+    
+    seasonbar += '</select></div><button id="button_track" style="float: right"></button>';
+    
+    div_seasons.innerHTML = seasonbar;
+    div_seasons.style.display = "block";
+    
+    document.getElementById('select_season').selectedIndex = clickthroughSeason;
+    listSeason(clickthroughSeason);
+    
+    styleTrackButton("serie", document.getElementById("button_track"));
+    div_info.style.display = "block";
+}
+
+
+/* FILMS */
+
+function onFilmsGeneral(err, body) {
+    if (err) {
+        div_footer.innerHTML = err;
+        return;
+    }
+    
+    var html = "";
+    
+    for (var i = 0; i < body.list.length; i += 1) {
+        var suggestion = body.list[i];
+        
+        var pos = suggestion.title.lastIndexOf("(");
+        var title = suggestion.title.slice(0, pos < 0 ? undefined : pos);
+        var image = suggestion.image;
+        var release = parseFilmRelease(suggestion.release);
+        
+        html += createSuggestion(title, image, release, suggestions.length + i, "film");
+    }
+    
+    films = true;
+    div_footer.innerHTML = "";
+    suggestions = suggestions.concat(body.list);
+    div_suggestions.innerHTML += html;
+}
+
+function onFilmsSearch(err, body) {
+    if (err) {
+        showError(err);
+        return;
+    }
+    
+    if (page < 5 && !body.last && body.list.length > 0) {
+        page += 1;
+        sendRequest("films_search", {page: page, query: query}, onFilmsSearch);
+        div_footer.innerHTML = "Bezig met zoeken naar meerdere films...";
+    } else {
+        div_footer.innerHTML = "Staat je film er niet bij? Wees er zeker van dat de titel correct is ingegeven.";
+    }
+    
+    var html = "";
+    
+    for (var i = 0; i < body.list.length; i += 1) {
+        var suggestion = body.list[i];
+        
+        var pos = suggestion.title.lastIndexOf("(");
+        var title = suggestion.title.slice(0, pos < 0 ? undefined : pos);
+        var image = suggestion.image;
+        var release = parseFilmRelease(suggestion.release);
+        
+        html += createSuggestion(title, image, release, suggestions.length + i, "film");
+    }
+    
+    films = true;
+    suggestions = suggestions.concat(body.list);
+    div_suggestions.innerHTML += html;
+}
+
+function onFilmsGenre(err, body) {
+    if (err) {
+        showError(err);
+        return;
+    }
+    
+    if (page < 5 && !body.last && body.list.length > 0) {
+        page += 1;
+        sendRequest("films_genre", {page: page, genre: genre}, onFilmsGenre);
+        div_footer.innerHTML = "Bezig met zoeken naar meerdere films...";
+    } else {
+        div_footer.innerHTML = "";
+    }
+    
+    var html = "";
+    
+    for (var i = 0; i < body.list.length; i += 1) {
+        var suggestion = body.list[i];
+        
+        var pos = suggestion.title.lastIndexOf("(");
+        var title = suggestion.title.slice(0, pos < 0 ? undefined : pos);
+        var image = suggestion.image;
+        var release = parseFilmRelease(suggestion.release);
+        
+        html += createSuggestion(title, image, release, suggestions.length + i, "film");
+    }
+    
+    films = true;
+    suggestions = suggestions.concat(body.list);
+    div_suggestions.innerHTML += html;
+}
+
+function onFilmsInfo(err, body) {
+    if (err) {
+        showError(err);
+        return;
+    }
+    
+    hosts = body.hosts;
+    div_footer.innerHTML = "Bezig met zoeken naar video...";
+    sendRequest("films_video", {hosts: hosts, i: 0, j: 0}, onVideo);
+    
+    var pos = suggestion.title.lastIndexOf("(");
+    var title = suggestion.title.slice(0, pos < 0 ? undefined : pos);
+    var image = suggestion.image;
+    var release = parseFilmRelease(suggestion.release);
+    var genres = suggestion.genres;
+    var rate = parseFloat(suggestion.rate);
+    var description = body.description;
+    var trailer = body.trailer;
+    
+    var stars = "☆☆☆☆☆";
+    if (!isNaN(rate)) {
+        var score = Math.round(rate / 2);
+        stars = "★".repeat(score) + "☆".repeat(5 - score);
+    }
+    
+    img_overview.src = image;
+    div_title.innerHTML = title;
+    span_release.innerHTML = release;
+    span_genres.innerHTML = translateGenres(genres).join(", ");
+    span_rate.innerHTML = stars;
+    span_rate.title = suggestion.rate + "/10";
+    span_description.innerHTML = description;
+    span_trailer.innerHTML = '<br>';
+    
+    if (trailer) {
+        span_trailer.innerHTML += '<button id="button_trailer" class="button" onclick="watchTrailer(' + "'" + trailer + "'" + ')">Bekijk trailer</button>&nbsp;&nbsp;&nbsp;&nbsp;';
+    }
+    
+    span_trailer.innerHTML += '<button id="button_track"></button>';
+    
+    div_info.style.display = "block";
+    styleTrackButton("film", document.getElementById("button_track"));
+}
+
+
+/* OTHER FUNCTIONS */
+
+function onVideo(err, body) {
+    if (err) {
+        showError(err);
+        return;
+    }
+    
+    var video = body.video;
+    ii = body.i;
+    jj = body.j;
+    
+    if (!films) {
+        storage.episodes[seasons[seasonNumber][episodeNumber].link] = true;
+        setStorage();
+        
+        div_episodetitle.innerHTML = seasons[seasonNumber][episodeNumber].title;
+        div_episodetitle.style.display = "block";
+        
+        if (seasonNumber != 0 || episodeNumber != 0) {
+            div_settings.innerHTML += '<button class="button" onclick="gotoEpisode(' + "'previous'" + ')" style="float: left">&lt; Previous</button>';
+        }
+        if (seasonNumber != seasons.length - 1 || episodeNumber != seasons[seasonNumber].length - 1) {
+            div_settings.innerHTML += '<button class="button" onclick="gotoEpisode(' + "'next'" + ')" style="float: right">Next &gt;</button>';
+        }
+    }
+    
+    div_footer.innerHTML = "De video is aan het laden...";
+    button_other.style.display = "block";
+    
+    if (video.indexOf(".swf") >= 0) {
+        iframe_player.src = video + "&skin=beelden.zip";
+        iframe_player.style.display = "block";
+        iframe_player.width = "720";
+        iframe_player.height = "405";
+        
+        iframe_player.onload = function () {
+            if (div_video.style.display == "none") {
+                return;
+            }
+            div_settings.innerHTML += '<button class="button" onclick="goFullscreen()">Volledig scherm</button><br><br>' +
+            '<span style="color: gray"><i>Gebruik de Escape-toets om het volledig scherm te sluiten.</i></span>';
+            
+            flashInterval = setInterval(function () {
+                iframe_player.contentWindow.blur();
+                window.focus();
+            }, 1000);
+            
+            div_footer.innerHTML = "";
+        };
+    } else {
+        loadVideoPlayer(video);
+    }
+    
+    div_video.style.display = "block";
+}
+
+function gotoEpisode(kind) {
+    clearVideo();
+    
+    if (kind == "next") {
+        if (episodeNumber < seasons[seasonNumber].length - 1) {
+            episodeNumber += 1;
+        } else {
+            seasonNumber += 1;
+            episodeNumber = 0;
+            document.getElementById("select_season").selectedIndex += 1;
+        }
+    } else {
+        if (episodeNumber > 0) {
+            episodeNumber -= 1;
+        } else {
+            seasonNumber -= 1;
+            episodeNumber = seasons[seasonNumber].length - 1;
+            document.getElementById("select_season").selectedIndex -= 1;
+        }
+    }
+    
+    chooseEpisode(episodeNumber);
+}
+
+function findOtherVideo() {
+    clearVideo();
+    
+    div_footer.innerHTML = "Bezig met zoeken naar een andere video...";
+    
+    if (films) {
+        sendRequest("films_video", {hosts: hosts, i: ii, j: jj}, onVideo);
+    } else {
+        var link = seasons[seasonNumber][episodeNumber].link;
+        sendRequest("series_episode", {link: link, i: ii, j: jj}, onVideo);
+    }
+}
+
+function track(kind, on) {
+    if (on) {
+        if (kind == "film") {
+            storage.films[suggestion.link] = {
+                link: suggestion.link,
+                title: suggestion.title,
+                image: suggestion.image,
+                release: suggestion.release,
+                genres: suggestion.genres,
+                rate: suggestion.rate
+            }
+        } else {
+            storage.series[suggestion.link] = {
+                link: suggestion.link,
+                title: suggestion.title,
+                image: suggestion.image,
+                release: suggestion.release
+            };
+        }
+    } else {
+        if (kind == "film") {
+            delete storage.films[suggestion.link];
+        } else {
+            delete storage.series[suggestion.link];
+        }
+    }
+    
+    setStorage();
+    styleTrackButton(kind, document.getElementById("button_track"));
+}
+
+function styleTrackButton(kind, button) {
+    if (kind == "film") {
+        if (storage.films.hasOwnProperty(suggestion.link)) {
+            button.setAttribute("class", "trackbutton");
+            button.setAttribute("onclick", 'track("film", false)');
+            button.innerHTML = "Film wordt onthouden!";
+        } else {
+            button.setAttribute("class", "notrackbutton");
+            button.setAttribute("onclick", 'track("film", true)');
+            button.innerHTML = "Onthoud deze film...";
+        }
+    } else {
+        if (storage.series.hasOwnProperty(suggestion.link)) {
+            button.setAttribute("class", "trackbutton");
+            button.setAttribute("onclick", 'track("serie", false)');
+            button.innerHTML = "Serie wordt gevolgd!";
+        } else {
+            button.setAttribute("class", "notrackbutton");
+            button.setAttribute("onclick", 'track("serie", true)');
+            button.innerHTML = "Volg deze serie...";
+        }
+    }
+}
+
+function listSeason(n) {
+    clearVideo();
+    
+    var list = "";
+    var season = seasons[n];
+    seasonNumber = n;
+    
+    for (var i = 0; i < season.length; i += 1) {
+        var title = season[i].title;
+        var prefix = title + ":";
+        var pos = title.indexOf(":");
+        
+        if (pos >= 0) {
+            prefix = title.slice(0, pos + 2);
+            title = title.slice(pos + 2);
+        }
+        
+        list += "<li>";
+        list += '<div style="border-radius: 2px; border: 2px solid black; padding: 18px 40px 18px 50px; text-align: left;'
+        list += 'margin: 6px 32px; width: 70vw; display: inline-block"><span class="episode" onclick="chooseEpisode(' + i + ')">';
+        list += '<span style="padding-top: 5px; display: inline-block"><span style="color: rgb(120, 140, 160)">' + prefix + '</span>&nbsp;&nbsp;&nbsp;';
+        list += '<b>' + title + '</b></span></span>';
+        list += '<button style="float: right"></button></div>';
+        list += "</li>";
+    }
+    
+    ul_episodes.innerHTML = list;
+    
+    var buttons = ul_episodes.querySelectorAll("button");
+    
+    for (var i = 0; i < buttons.length; i += 1) {
+        var link = seasons[seasonNumber][i].link;
+        styleWatchButton(buttons[i], link, i);
+    }
+    
+    ul_episodes.style.display = "block";
+}
+
+function watch(link, n, on) {
+    if (on) {
+        storage.episodes[link] = true;
+    } else {
+        delete storage.episodes[link];
+    }
+    
+    setStorage();
+    styleWatchButton(ul_episodes.querySelectorAll("button")[n], link, n);
+}
+
+function styleWatchButton(button, link, n) {
+    if (storage.episodes.hasOwnProperty(link)) {
+        button.setAttribute("class", "watchbutton");
+        button.setAttribute("onclick", 'watch("' + link + '", ' + n + ', false)');
+        button.innerHTML = "Reeds bekeken";
+    } else {
+        button.setAttribute("class", "nowatchbutton");
+        button.setAttribute("onclick", 'watch("' + link + '", ' + n + ', true)');
+        button.innerHTML = "Nog niet bekeken";
+    }
+}
+
+function chooseEpisode(episode) {
+    div_footer.innerHTML = "";
+    ul_episodes.style.display = "none";
+    ul_episodes.innerHTML = "";
+    
+    episodeNumber = episode;
+    
+    link = seasons[seasonNumber][episodeNumber].link;
+    
+    div_footer.innerHTML = "Bezig met zoeken naar episode...";
+    sendRequest("series_episode", {link: link, i: 0, j: 0}, onVideo);
+}
+
+function watchTrailer(trailer) {
+    if (trailer.indexOf("www.imdb.com/") >= 0) {
+        trailer = trailer.slice(0, trailer.lastIndexOf("?") + 1) + "autoplay=false&width=480";
+    }
+    
+    if (iframe_trailer.style.display == "block") {
+        iframe_trailer.style.display = "none";
+        iframe_trailer.src = "";
+        document.getElementById("button_trailer").innerHTML = "Bekijk trailer";
+    } else {
+        iframe_trailer.src = trailer;
+        iframe_trailer.style.display = "block";
+        document.getElementById("button_trailer").innerHTML = "Verberg trailer";
+    }
+}
+
+function goHome() {
+    clearBoard();
+    
+    var keys = Object.keys(storage.series);
+    if (keys.length == 0) {
+        if (div_title_tracked_series.hasAttribute("title")) {
+            div_title_tracked_series.removeAttribute("title");
+        }
+        
+        div_tracked_series.innerHTML = '<span style="color: gray"><i>Je volgt momenteel nog geen series.</i></span>';
+        div_home.style.display = "block";
+    } else {
+        var first = false;
+        var titles = "";
+        
+        div_tracked_series.innerHTML = '<span style="color: gray">Bezig met zoeken naar laatste episodes...</span>';
+        div_home.style.display = "block";
+        
+        suggestions = [];
+        
+        for (var i = 0; i < keys.length; i += 1) {
+            var link = keys[i];
+            
+            titles += storage.series[link].title + "\n";
+            
+            sendRequest("series_seasons", {link: link}, function (err, body) {
+                if (err) {
+                    if (!first) {
+                        div_tracked_series.innerHTML = '<span style="color: red"><b>Het laden van de series is mislukt.</b></span>';
+                    }
+                    return;
+                }
+                
+                var list = body.seasons;
+                var prevtitle = "";
+                var prevseason = 0;
+                var found = false;
+                
+                for (var j = list.length - 1; j >= 0; j -= 1) {
+                    var season = list[j];
+                    
+                    for (var k = season.length - 1; k >= 0; k -= 1) {
+                        var episode = season[k];
+                        var link = episode.link;
+                        var title = episode.title;
+                        
+                        if (storage.episodes.hasOwnProperty(link)) {
+                            found = true;
+                            break;
+                        }
+                        
+                        prevtitle = title;
+                        prevseason = j + 1;
+                    }
+                    
+                    if (found) {
+                        break;
+                    }
+                }
+                
+                var sug = storage.series[body.link];
+                suggestions.push(sug);
+                
+                if (prevtitle) {
+                    var html = createSuggestion(prevtitle + " (" + sug.title + ")", sug.image, "Seizoen " + prevseason, suggestions.length - 1, "serie", prevseason - 1);
+                    if (first) {
+                        div_tracked_series.innerHTML += html
+                    } else {
+                        div_tracked_series.innerHTML = html;
+                        first = true;
+                    }
+                }
+            });
+        }
+        
+        div_title_tracked_series.setAttribute("title", titles);
+    }
+    
+    keys = Object.keys(storage.films);
+    if (keys.length == 0) {
+        if (div_title_tracked_films.hasAttribute("title")) {
+            div_title_tracked_films.removeAttribute("title");
+        }
+        
+        div_tracked_films.innerHTML = '<span style="color: gray"><i>Je hebt momenteel nog geen films geselecteerd.</i></span>';
+        div_home.style.display = "block";
+    } else {
+        suggestions = [];
+        
+        var titles = "";
+        var html = "";
+        for (var i = 0; i < keys.length; i += 1) {
+            var link = keys[i];
+            var sug = storage.films[link];
+            
+            suggestions.push(sug);
+            
+            var pos = sug.title.lastIndexOf("(");
+            var title = sug.title.slice(0, pos < 0 ? undefined : pos);
+            var image = sug.image;
+            var release = parseFilmRelease(sug.release);
+            
+            titles += title + "\n";
+            html += createSuggestion(title, image, release, i, "film");
+        }
+        
+        div_title_tracked_films.setAttribute("title", titles);
+        div_tracked_films.innerHTML = html;
+        div_home.style.display = "block";
+    }
+    
+    div_statusinfo.style.display = "block";
+}
+
+function clearBoard() {
+    div_home.style.display = "none";
+    div_suggestions.innerHTML = "";
+    div_footer.innerHTML = "";
+    
+    div_statusinfo.style.display = "none";
+    
+    div_info.style.display = "none";
+    img_overview.src = "";
+    div_title.innerHTML = "";
+    span_release.innerHTML = "";
+    span_genres.innerHTML = "";
+    span_rate.innerHTML = "";
+    span_seasons.innerHTML = "";
+    span_description.innerHTML = "";
+    span_trailer.innerHTML = "";
+    iframe_trailer.style.display = "none";
+    iframe_trailer.src = "";
+    
+    div_seasons.style.display = "none";
+    div_seasons.innerHTML = "";
+    ul_episodes.style.display = "none";
+    ul_episodes.innerHTML = "";
+    
+    clearVideo();
+    
+    if (backgroundChanged) {
+        document.body.style["background"] = 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("http://g2f.nl/03u34bq")';
+        document.body.style["background-repeat"] = "no-repeat";
+        document.body.style["background-attachment"] = "fixed";
+        document.body.style["background-size"] = "cover";
+        backgroundChanged = false;
+    }
+}
+
+function search() {
+    query = input_search.value.trim().toLowerCase().replace(/&/, "&amp;");
+    if (query == "") {
+        return;
+    }
+    
+    select_category.selectedIndex = 0;
+    
+    if (radio_series.checked) {
+        clearBoard();
+        suggestions = [];
+        
+        div_home.style.display = "none";
+        div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar series voor <b>' + query + '</b>...</i></span>';
+        
+        page = 1;
+        sendRequest("series_search", {page: page, query: query}, onSeriesSearch);
+    }
+    
+    if (radio_films.checked) {
+        clearBoard();
+        suggestions = [];
+        
+        div_home.style.display = "none";
+        div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar films voor <b>' + query + '</b>...</i></span>';
+        
+        page = 1;
+        sendRequest("films_search", {page: page, query: query}, onFilmsSearch);
+    }
+}
+
+function showError(message) {
+    div_footer.innerHTML = '<span style="color: rgb(200, 50, 50); font-weight: bold">' + message + '</span>';
+}
+
+function translateGenres(list) {
+    var output = [];
+    
+    for (var i = 0; i < list.length; i += 1) {
+        switch (list[i]) {
+            case "Action":
+                output.push("Actie");
+                break;
+            case "Adventure":
+                output.push("Avontuur");
+                break;
+            case "Animation":
+                output.push("Animatie");
+                break;
+            case "Biography":
+                output.push("Biografie");
+                break;
+            case "Comedy":
+                output.push("Komedie");
+                break;
+            case "Crime":
+                output.push("Misdaag");
+                break;
+            case "Documentary":
+                output.push("Documentaire");
+                break;
+            case "Drama":
+                output.push("Drama");
+                break;
+            case "Family":
+                output.push("Familie");
+                break;
+            case "Fantasy":
+                output.push("Fantasie");
+                break;
+            case "History":
+                output.push("Geschiedenis");
+                break;
+            case "Horror":
+                output.push("Horror");
+                break;
+            case "Musical":
+                output.push("Musical");
+                break;
+            case "Mystery":
+                output.push("Mysterie");
+                break;
+            case "Romance":
+                output.push("Romantiek");
+                break;
+            case "Sci-Fi":
+                output.push("Science Fiction");
+                break;
+            case "Reality-TV":
+                output.push("Reality-TV");
+                break;
+            case "Politics":
+                output.push("Politiek");
+                break;
+            case "War":
+                output.push("Oorlog");
+                break;
+            default:
+                output.push(list[i]);
+        }
+    }
+    
+    return output;
+}
+
+function goFullscreen() {
+    if (iframe_player.style.display == "block") {
+        if (iframe_player.requestFullscreen) {
+            iframe_player.requestFullscreen();
+        } else if (iframe_player.mozRequestFullScreen) {
+            iframe_player.mozRequestFullScreen();
+        } else if (iframe_player.webkitRequestFullscreen) {
+            iframe_player.webkitRequestFullscreen();
+        }
+    }
+    
+    if (video_player.style.display == "block") {
+        if (video_player.requestFullscreen) {
+            video_player.requestFullscreen();
+        } else if (video_player.mozRequestFullScreen) {
+            video_player.mozRequestFullScreen();
+        } else if (video_player.webkitRequestFullscreen) {
+            video_player.webkitRequestFullscreen();
+        }
+    }
+}
+
+function clearVideo() {
+    if (flashInterval) {
+        clearInterval(flashInterval);
+        flashInterval = null;
+    }
+    
+    if (syncInterval) {
+        clearInterval(syncInterval);
+        syncInterval = null;
+    }
+    
+    div_footer.innerHTML = "";
+    button_other.style.display = "none";
+    
+    div_episodetitle.style.display = "none";
+    div_episodetitle.innerHTML = "";
+    
+    while (div_player.firstChild) {
+        div_player.firstChild.src = "";
+        div_player.removeChild(div_player.firstChild);
+    }
+    
+    currentSubtitles = "";
+    div_video.style.display = "none";
+    div_player.style.display = "none";
+    iframe_player.style.display = "none";
+    iframe_player.src = "";
+    div_settings.innerHTML = "";
+}
+
+function loadVideoPlayer(src) {
+    video_player.src = "";
+    video_player.onerror = function () {};
+    
+    while (div_player.firstChild) {
+        div_player.firstChild.src = "";
+        div_player.removeChild(div_player.firstChild);
+    }
+    
+    video_player = document.createElement("video");
+    video_player.src = src;
+    video_player.width = "720";
+    video_player.preload = "auto";
+    video_player.autoplay = true;
+    video_player.controls = true;
+    video_player.style = "background: gray; display: block";
+    
+    div_player.appendChild(video_player);
+    div_player.style.display = "block";
+    
+    video_player.oncanplay = function () {
+        if (div_video.style.display == "none" || div_footer.innerHTML == "") {
+            return;
+        }
+        
+        div_footer.innerHTML =  "";
+        
+        if (div_settings.innerHTML.length < 300) {
+            div_settings.innerHTML += '<button class="button" onclick="goFullscreen()">Volledig scherm</button>' +
+            '<br><br><br><br><span style="color: orange">Voeg ondertiteling toe:</span><br><br><input type="file" accept=".vtt,.srt" onchange="addSubtitles(event)">' +
+            '<br><br><span style="color: orange">Verschuif ondertitels (in seconden):</span>&nbsp;&nbsp;' +
+            '<button onclick="shiftVtt(document.getElementById(\'input_shiftsub\').value, -1)">&lt;</button>&nbsp;' +
+            '<input id="input_shiftsub" type="text" size="8" style="padding: 0px 4px">&nbsp;' +
+            '<button onclick="shiftVtt(document.getElementById(\'input_shiftsub\').value, 1)">&gt;</button>&nbsp;&nbsp;<br><br><br>' +
+            '<table><tr><td style="color: orange"><input id="checkbox_audiosync" type="checkbox">&nbsp;Automatische audio-synchronisatie</td></tr>' +
+            '<tr><td style="color: orange">Synchronizeer elke &nbsp;<input id="input_audiosync" type="text" size="8" placeholder="1,5" style="padding: 0px 4px">&nbsp; minuten</td></tr></table>';
+        }
+        
+        var checkbox_audiosync = document.getElementById("checkbox_audiosync");
+        var input_audiosync = document.getElementById("input_audiosync");
+        var syncTime = 90;
+        
+        input_audiosync.oninput = function () {
+            var time = parseFloat(input_audiosync.value.trim().replace(",", "."));
+            if (!isNaN(time) && time > 0.1) {
+                syncTime = 60 * time;
+                if (syncInterval) {
+                    clearInterval(syncInterval);
+                }
+                syncInterval = setInterval(function () {
+                    if (video_player.readyState == 4) {
+                        video_player.currentTime = video_player.currentTime + 0.1;
+                    }
+                }, 1000 * syncTime);
+                console.log(syncTime);
+            } else {
+                syncTime = 90;
+            }
+        };
+        
+        checkbox_audiosync.onchange = function () {
+            if (checkbox_audiosync.checked) {
+                syncInterval = setInterval(function () {
+                    video_player.currentTime = video_player.currentTime + 0.1;
+                }, 1000 * syncTime);
+            } else if (syncInterval) {
+                clearInterval(syncInterval);
+                syncInterval = null;
+            }
+        };
+    };
+
+    video_player.onerror = function () {
+        if (div_video.style.display == "none") {
+            return;
+        }
+        showError("Er is iets foutgelopen tijdens het laden van de video.");
+    };
+}
+
+function addSubtitles(event) {
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    
+    reader.onload = function (evt) {
+        var pos = file.name.lastIndexOf(".");
+        var ext = "vtt";
+        
+        if (pos >= 0) {
+            ext = file.name.slice(pos + 1);
+        }
+        
+        var contents = evt.target.result;
+        
+        if (ext == "srt") {
+            contents = srtToVtt(contents);
+        }
+        
+        currentSubtitles = contents;
+        var blob = new Blob([contents], {type: "text/vtt"});
+        
+        if (video_player.firstChild) {
+            loadVideoPlayer(video_player.src);
+            div_footer.innerHTML = "De video is aan het laden met andere ondertiteling...";
+        }
+        
+        var track = document.createElement("track");
+        track.kind = "captions";
+        track.srclang = "en";
+        track.setAttribute("default", "true");
+        track.mode = "showing";
+        track.src = URL.createObjectURL(blob);
+        
+        video_player.appendChild(track);
+    }
+    
+    reader.readAsText(file);
+}
+
+function srtToVtt(contents) {
+    var lines = contents.replace(/\r/g, "").split("\n");
+    var blockLine = 0;
+    
+    for (var i = 0; i < lines.length; i += 1) {
+        var line = lines[i];
+        
+        if (line.trim() == "") {
+            blockLine = 0;
+        } else {
+            blockLine += 1;
+        }
+        
+        if (blockLine == 2) {
+            lines[i] = line.replace(/,/g, ".");
+        }
+    }
+    
+    return "WEBVTT\n\n" + lines.join("\n");
+}
+
+function shiftVtt(time, direction) {
+    if (currentSubtitles == "") {
+        return;
+    }
+    
+    time = time.replace(",", ".");
+    
+    if (isNaN(time)) {
+        return;
+    }
+    
+    var dt = parseFloat(time) * direction;
+    var contents = currentSubtitles;
+    var lines = contents.replace(/\r/g, "").split("\n");
+    var blockLine = 0;
+    
+    for (var i = 0; i < lines.length; i += 1) {
+        var line = lines[i];
+        
+        if (line.trim() === "") {
+            blockLine = 0;
+        } else {
+            blockLine += 1;
+        }
+        
+        if ((blockLine === 1 || blockLine === 2) && line.indexOf("-" + "->") >= 0) {
+            var times = line.split("-" + "->");
+            
+            lines[i] = shiftTime(times[0], dt) + " -" + "-> " + shiftTime(times[1], dt);
+        }
+    }
+    
+    currentSubtitles = lines.join("\n");
+    
+    var blob = new Blob([currentSubtitles], {type: "text/vtt"});
+    
+    loadVideoPlayer(video_player.src);
+    div_footer.innerHTML = "De video is aan het laden met verschoven ondertitels...";
+    
+    var track = document.createElement("track");
+    track.kind = "captions";
+    track.srclang = "en";
+    track.setAttribute("default", "true");
+    track.mode = "showing";
+    track.src = URL.createObjectURL(blob);
+    
+    video_player.appendChild(track);
+}
+
+function shiftTime(format, dt) {    
+    var parts = format.trim().split(":");
+    var millis = parseInt(parts[2].replace(".", ""));
+    
+    millis += parseInt(parts[1]) * 60 * 1000;
+    millis += parseInt(parts[0]) * 60 * 60 * 1000;
+    millis += Math.floor(dt * 1000);
+    
+    var shifted = "";
+    var hours = Math.floor(millis / (60 * 60 * 1000));
+    
+    if (hours < 10) {
+        shifted += "0";
+    }
+    
+    shifted += hours + ":";
+    
+    if (hours > 0) {
+        millis %= hours * 60 * 60 * 1000;
+    }
+    
+    var minutes = Math.floor(millis / (60 * 1000));
+    
+    if (minutes < 10) {
+        shifted += "0";
+    }
+    
+    shifted += minutes + ":";
+    
+    if (minutes > 0) {
+        millis %= minutes * 60 * 1000;
+    }
+    
+    var seconds = Math.floor(millis / 1000);
+    
+    if (seconds < 10) {
+        shifted += "0";
+    }
+    
+    shifted += seconds + ".";
+    
+    if (seconds > 0) {
+        millis %= seconds * 1000;
+    }
+    
+    if (millis < 100) {
+        shifted += "0";
+        
+        if (millis < 10) {
+            shifted += "0";
+        }
+    }
+    
+    return shifted + millis;
+}
+
+function parseFilmRelease(date) {
+    var pos = date.lastIndexOf(" ");
+    if (pos >= 0) {
+        var token = date.slice(pos + 1);
+        if (!isNaN(parseFloat(token)) && isFinite(token)) {
+            return token;
+        }
+        
+        pos = date.indexOf(" ");
+        token = date.slice(0, pos);
+        if (!isNaN(parseFloat(token)) && isFinite(token)) {
+            return token;
+        }
+    } else if (!isNaN(parseFloat(date)) && isFinite(date)) {
+        return date;
+    }
+    
+    return "n/a";
+}
+
+function createSuggestion(title, image, release, i, kind, season) {
+    season = season || 0;
+    return '<div class="suggestion" onclick="choose(' + "'" + kind + "'" + ', ' + i + ', ' + season + ')" align="center" title="' + title + '" style="cursor: pointer; padding: 16px 12px; margin: 12px 0px; display: inline-block; width: 120px;">' +
+           '<div style="margin-bottom: 10px"><img class="image" src="' + image + '"></div>' +
+           '<div style="font-size: 10px; text-overflow: ellipsis; overflow: hidden; display: block; white-space: nowrap; width: 110px">' + title + '</div>' +
+           '<div style="font-size: 9px; color: gray; margin-top: 6px">' + release + '</div></div>';
+}
+
+function choose(kind, i, season) {
+    suggestion = suggestions[i];
+    var link = suggestion.link;
+    
+    clearBoard();
+    select_category.selectedIndex = 0;
+    
+    if (kind == "film") {
+        films = true;
+        
+        if (!radio_films.checked) {
+            radio_films.checked = true;
+            radio_films.onchange();
+        }
+        
+        var pos = suggestion.title.lastIndexOf("(");
+        var title = suggestion.title.slice(0, pos < 0 ? undefined : pos);
+        
+        div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar de film <b>' + title + '</b>...</i></span>';
+        sendRequest("films_info", {link: link}, onFilmsInfo);
+    } else {
+        films = false;
+        clickthroughSeason = season;
+        
+        if (!radio_series.checked) {
+            radio_series.checked = true;
+            radio_series.onchange();
+        }
+        div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar de serie <b>' + suggestion.title + '</b>...</i></span>';
+        sendRequest("series_info", {link: link}, onSeriesInfo);
+    }
+}
+
+function sendRequest(event, params, callback) {
+    var pass = false;
+    var requestHash = event;
+    
+    switch (event) {
+        case "series_search":
+        case "films_search":
+            requestHash += params.query;
+            break;
+            
+        case "series_info":
+        case "films_info":
+        case "series_episode":
+        case "films_video":
+            requestHash += params.link;
+            break;
+            
+        case "films_genre":
+            requestHash += params.genre;
+            break;
+            
+        case "series_seasons":
+            break;
+            
+        case "storage_get":
+        case "storage_set":
+            pass = true;
+            break;
+    }
+    
+    var xhr = new XMLHttpRequest();
+    
+    if (!pass) {
+        while (requestQueue.length > 0) {
+            var top = requestQueue[requestQueue.length - 1];
+            if (top.hash == requestHash) {
+                break;
+            }
+            top.request.abort();
+            requestQueue.pop();
+        }
+        
+        requestQueue.push({
+            request: xhr,
+            hash: requestHash
+        });
+    }
+    
+    xhr.open("POST", LOCATION, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var json = JSON.parse(xhr.responseText);
+            callback(json.error, json);
+        }
+    }
+    
+    xhr.onerror = function () {
+        showError("Ben je verbonden met het internet?");
+    };
+    
+    params.event = event;
+    xhr.send(JSON.stringify(params));
+}
+
+function clearStorage() {
+    if (confirm("Je staat op het punt alle informatie omtrent series die je volgt, films die je wilt bekijken en episodes die je hebt gezien, te verwijderen.")) {
+        storage = {
+            "films": {},
+            "series": {},
+            "episodes": {}
+        };
+        setStorage();
+        goHome();
+    }
+}
+
+function getStorage(callback) {
+    sendRequest("storage_get", {}, function (err, body) {
+        if (!err) {
+            storage = body;
+        }
+        callback();
+    });
+}
+
+function setStorage() {
+    sendRequest("storage_set", {storage: storage}, function () {});
+}
+
+window.oncontextmenu = function () {
+    return false;
+};
+
+window.onload = function () {
+    sendRequest("port_get", {}, function (err, body) {
+        if (!err) {
+            span_port.innerHTML = ":" + body.port;
+        }
+    });
+    radio_films.onchange();
+    getStorage(function () {
+        goHome();
+    });
+};
+</script>
+
+</body>
+</html>
