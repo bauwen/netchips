@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
-    <title>Netchips Update</title>
+    <title>Netchips update</title>
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet" />
+    <style>
+    body {
+        font: 18px Exo, sans-serif;
+        background: rgb(20, 20, 20);
+        color: white
+    }
+    
+    .button {
+        cursor: pointer;
+        background: orange;
+        color: rgb(20, 20, 20);
+        border-radius: 2px;
+        padding: 8px 24px;
+        font: bold 16px Exo, sans-serif;
+        border: 2px solid transparent;
+    }
+    
+    .button:hover {
+        background: transparent;
+        color: orange;
+        border: 2px solid orange;
+    }
+    </style>
 </head>
 <body>
 
-<pre>
-Netchips moet geüpdated worden, maar dit kan niet worden voltooid.
-Problemen die dit kunnen veroorzaken:
-
-- je bent niet verbonden met het internet
-- github.com is down; in dit geval moet je even wachten
-</pre>
-
-<button onclick="require('electron').ipcRenderer.send('try again')">Probeer opnieuw</button>
+<div align="center" style="margin: 48px 64px">
+    <b>O-oow!</b><br><br><br>
+    Netchips zou moeten geüpdated worden, maar dit kan niet worden gedaan om de één of andere reden...<br><br><br><br>
+    
+    <span style="color: orange">Ben je wel verbonden met het internet?</span><br><br>
+    Zoja, dan ligt het probleem ergens anders en probeer je best nu of later eens opnieuw.<br><br><br><br>
+    
+    <button class="button" onclick="require('electron').ipcRenderer.send('try again')">Probeer nu opnieuw</button>
+</div>
 
 </body>
 </html>

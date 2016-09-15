@@ -267,7 +267,7 @@
     <button id="button_other" class="otherbutton" onclick="findOtherVideo()" style="display: none">Zoek een andere video...</button>
     
     <div id="div_statusinfo">
-        <span id="span_version" style="color: rgba(100, 100, 100, 0.5)">Versie 1.2</span>
+        <span id="span_version" style="color: rgba(100, 100, 100, 0.5)"></span>
         <span id="span_port" style="color: rgba(100, 100, 100, 0.5); float: right"></span>
     </div>
 </div>
@@ -1176,7 +1176,7 @@ function translateGenres(list) {
                 output.push("Komedie");
                 break;
             case "Crime":
-                output.push("Misdaag");
+                output.push("Misdaad");
                 break;
             case "Documentary":
                 output.push("Documentaire");
@@ -1609,6 +1609,8 @@ function sendRequest(event, params, callback) {
             
         case "storage_get":
         case "storage_set":
+        case "port_get":
+        case "version_get":
             pass = true;
             break;
     }
@@ -1681,6 +1683,11 @@ window.onload = function () {
     sendRequest("port_get", {}, function (err, body) {
         if (!err) {
             span_port.innerHTML = ":" + body.port;
+        }
+    });
+    sendRequest("version_get", {}, function (err, body) {
+        if (!err) {
+            span_version.innerHTML = "Versie " + body.version;
         }
     });
     radio_films.onchange();

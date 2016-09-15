@@ -1,8 +1,9 @@
 var electron = require("electron");
+var fs = require("fs");
+var https = require("https");
 var netchips = require("./netchips");
 var path = require("path");
-var https = require("https");
-var fs = require("fs");
+var url = require("url");
 
 electron.app.commandLine.appendSwitch('--enable-npapi');
 electron.app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, "pepflashplayer.dll"))
@@ -11,14 +12,16 @@ electron.app.on("window-all-closed", function () {
     electron.app.quit();
 });
 
+var version = "";
 var updateWindow = null;
 
 electron.app.on("ready", function () {
     updateWindow = new electron.BrowserWindow({
         width: 720,
         height: 540,
-        title: "Netchips Update",
-        backgroundColor: "#222"
+        title: "Netchips update",
+        backgroundColor: "#222",
+        show: false
     });
     updateWindow.loadURL("file://" + path.join(__dirname, "error.html"));
     updateWindow.on("closed", function () {
@@ -43,16 +46,15 @@ function start() {
         mainWindow.on("closed", function () {
             mainWindow = null;
         });
+        updateWindow.close();
     });
     
-    netchips.start();
-    updateWindow.close();
+    netchips.start(version);
 }
 
 function checkForUpdate() {
-    var version = "";
     try {
-        version = fs.readFileSync("version.txt", "utf8");
+        version = fs.readFileSync(path.join(__dirname, "version.txt"), "utf8");
     } catch (err) {};
     
     getRawContent("version.txt", function (body) {
@@ -62,10 +64,13 @@ function checkForUpdate() {
         }
         
         if (version.trim() != body.trim()) {
+            console.log("We need to update");
+            version = body;
             update();
             return;
         }
         
+        console.log("We don't need to update");
         start();
     });
 }
@@ -77,7 +82,15 @@ function update() {
             return;
         }
         
-        updateTree(body.tree, 0, function (success) {
+        var json;
+        try {
+            json = JSON.parse(body);
+        } catch (err) {
+            updateWindow.show();
+            return;
+        }
+        
+        updateTree(json.tree, 0, function (success) {
             if (success) {
                 start();
             } else {
@@ -90,13 +103,21 @@ function update() {
 function updateTree(tree, n, callback) {
     if (n >= tree.length) {
         callback(true);
+        return;
     }
     
-    var path =  tree[n].path;
+    var pathname = tree[n].path;
     
-    getRawContent(path, function (body) {
+    if (tree[n].type != "blob") {
+        setTimeout(function () {
+            updateTree(tree, n + 1, callback);
+        }, 0);
+        return;
+    }
+    
+    getRawContent(pathname, function (body) {
         if (body) {
-            fs.writeFileSync(path.join(__dirname, path), body);
+            //fs.writeFileSync(path.join(__dirname, pathname), body);
             setTimeout(function () {
                 updateTree(tree, n + 1, callback);
             }, 0);
@@ -111,23 +132,41 @@ function getRawContent(relpath, callback) {
 }
 
 function GET(link, callback) {
-    https.get(link, function (res) {
+    var urlobject = url.parse(link);
+    
+    var query = "";
+    if (urlobject.query) {
+        query += "?" + urlobject.query;
+    }
+    
+    var req = https.request({
+        host: urlobject.hostname,
+        path: urlobject.pathname + query,
+        port: urlobject.port,
+        method: "GET",
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0",
+        }
+    }, function (res) {
         var body = "";
         
         res.setEncoding("utf8");
         res.on("data", function (chunk) {
             body += chunk;
         });
-        res.on("end", function (chunk) {
+        res.on("end", function () {
             callback(body);
         });
-    }).on("error", function () {
+    });
+    
+    req.on("error", function () {
         callback(null);
     });
+    
+    req.end();
 }
 
 electron.ipcMain.on("try again", function () {
     updateWindow.hide();
     checkForUpdate();
 });
-

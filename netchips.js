@@ -78,9 +78,9 @@ module.exports = {
     start: start
 }
 
-function start() {
+function start(version) {
     var app = express();
-
+    
     console.log("Netchips server is booting up...");
 
     var server = app.listen(DEFAULT_PORT, function () {
@@ -100,6 +100,8 @@ function start() {
             if (callback) {
                 callback(server.address().port);
             }
+        } else {
+            console.log(err);
         }
     });
 
@@ -121,7 +123,15 @@ function start() {
         switch (req.body.event) {
             case "port_get":
                 send({
+                    error: "",
                     port: server.address().port
+                });
+                break;
+                
+            case "version_get":
+                send({
+                    error: "",
+                    version: version
                 });
                 break;
                 
