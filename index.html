@@ -390,7 +390,7 @@ select_category.oninput = function () {
         div_home.style.display = "none";
         div_footer.innerHTML = '<span style="color: orange"><i>Bezig met zoeken naar populaire series...</i></span>';
         
-        for (var i = 0; i < 3; i += 1) {
+        for (var i = 0; i < 5; i += 1) {
             sendRequest("series_general", {page: i + 1}, onSeriesGeneral);
         }
         return;
@@ -552,7 +552,7 @@ function onSeriesInfo(err, body) {
     var description = body.description;
     var background = body.background;
     
-    if (!false && background) {
+    if (background) {
         document.body.style["background"] = 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("' + background + '")';
         document.body.style["background-repeat"] = "no-repeat";
         document.body.style["background-attachment"] = "fixed";
