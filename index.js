@@ -117,7 +117,7 @@ function updateTree(tree, n, callback) {
     
     getRawContent(pathname, function (body) {
         if (body) {
-            //fs.writeFileSync(path.join(__dirname, pathname), body);
+            fs.writeFileSync(path.join(__dirname, pathname), body);
             setTimeout(function () {
                 updateTree(tree, n + 1, callback);
             }, 0);
