@@ -201,13 +201,13 @@
     </div>
     <div style="display: inline-block; margin: 12px 6vw 12px 0px">
         <span style="cursor: pointer; font-weight: bold" onclick="radio_series.checked = true; radio_series.onchange()">Series&nbsp;</span>
-        <input id="radio_series" type="radio" name="type">&nbsp;&nbsp;
-        <input id="radio_films" type="radio" name="type" checked>
+        <input id="radio_series" type="radio" name="type" checked>&nbsp;&nbsp;
+        <input id="radio_films" type="radio" name="type">
         <span style="cursor: pointer; font-weight: bold" onclick="radio_films.checked = true; radio_films.onchange()">&nbsp;Films</span>
     </div>
     <div style="display: inline-block; margin: 12px 6vw 12px 0px">
         <input id="input_search" type="text" size="24" placeholder="Zoek hier">
-        <button onclick="search()" style="font-size: 15px">🔍</button>
+        <button onclick="search()" style="font-size: 15px; padding: 1px 4px">🔍</button>
     </div>
     <div style="display: inline-block; margin: 12px 6vw 12px 0px">
         <b>Categorie:</b>&nbsp;&nbsp;
@@ -951,7 +951,8 @@ function chooseEpisode(episode) {
     
     link = seasons[seasonNumber][episodeNumber].link;
     
-    div_footer.innerHTML = "Bezig met zoeken naar episode...";
+    var title = "e" + seasons[seasonNumber][episodeNumber].title.slice(1);
+    div_footer.innerHTML = "Bezig met zoeken naar " + title;
     sendRequest("series_episode", {link: link, i: 0, j: 0}, onVideo);
 }
 
@@ -1690,7 +1691,7 @@ window.onload = function () {
             span_version.innerHTML = "Versie " + body.version;
         }
     });
-    radio_films.onchange();
+    radio_series.onchange();
     getStorage(function () {
         goHome();
     });
