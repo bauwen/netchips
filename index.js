@@ -5,8 +5,20 @@ var netchips = require("./netchips");
 var path = require("path");
 var url = require("url");
 
+var flashplayer = "";
+
+switch (process.platform) {
+    case "win32":
+        flashplayer = "pepflashplayer.dll";
+        break;
+        
+    case "darwin":
+        flashplayer = "PepperFlashPlayer.plugin";
+        break;
+}
+
 electron.app.commandLine.appendSwitch('--enable-npapi');
-electron.app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, "pepflashplayer.dll"))
+electron.app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, flashplayer))
 
 electron.app.on("window-all-closed", function () {
     electron.app.quit();
