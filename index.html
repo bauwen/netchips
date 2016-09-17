@@ -757,10 +757,10 @@ function onVideo(err, body) {
         div_episodetitle.style.display = "block";
         
         if (seasonNumber != 0 || episodeNumber != 0) {
-            div_settings.innerHTML += '<button class="button" onclick="gotoEpisode(' + "'previous'" + ')" style="float: left">&lt; Previous</button>';
+            div_settings.innerHTML += '<button class="button" onclick="gotoEpisode(' + "'previous'" + ')" style="float: left">&lt; Vorige</button>';
         }
         if (seasonNumber != seasons.length - 1 || episodeNumber != seasons[seasonNumber].length - 1) {
-            div_settings.innerHTML += '<button class="button" onclick="gotoEpisode(' + "'next'" + ')" style="float: right">Next &gt;</button>';
+            div_settings.innerHTML += '<button class="button" onclick="gotoEpisode(' + "'next'" + ')" style="float: right">Volgende &gt;</button>';
         }
     }
     
@@ -887,6 +887,7 @@ function styleTrackButton(kind, button) {
 }
 
 function listSeason(n) {
+    abortRequests();
     clearVideo();
     
     var list = "";
@@ -978,6 +979,7 @@ function watchTrailer(trailer) {
 }
 
 function goHome() {
+    abortRequests();
     clearBoard();
     select_category.selectedIndex = 0;
     
@@ -1655,6 +1657,12 @@ function sendRequest(event, params, callback) {
     
     params.event = event;
     xhr.send(JSON.stringify(params));
+}
+
+function abortRequests() {
+    while (requestQueue.length > 0) {
+        requestQueue.pop().request.abort();
+    }
 }
 
 function clearStorage() {

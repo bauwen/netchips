@@ -227,16 +227,20 @@ function getInfo(link, callback) {
                     // Better description
                     var span = $('* [itemprop="description"]').first();
                     if (span) {
-                        description = span.text().trim();
+                        var tempdescr = span.text.().trim();
                         
-                        var div = $('* [class="_hidden"]').first();
-                        if (div) {
-                            var text = div.text().trim();
-                            if (text) {
-                                description += text.slice(3);
+                        if (tempdescr != "") {
+                            description = tempdescr;
+                            
+                            var div = $('* [class="_hidden"]').first();
+                            if (div) {
+                                var text = div.text().trim();
+                                if (text) {
+                                    description += text.slice(3);
+                                }
+                            } else {
+                                description += "...";
                             }
-                        } else {
-                            description += "...";
                         }
                     }
                     
