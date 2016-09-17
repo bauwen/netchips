@@ -227,7 +227,7 @@ function getInfo(link, callback) {
                     // Better description
                     var span = $('* [itemprop="description"]').first();
                     if (span) {
-                        var tempdescr = span.text.().trim();
+                        var tempdescr = span.text().trim();
                         
                         if (tempdescr != "") {
                             description = tempdescr;
