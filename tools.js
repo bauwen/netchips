@@ -14,6 +14,7 @@ module.exports = {
     serialize: serialize,
     extractString: extractString,
     GET: GET,
+    GETImage: GETImage,
     POST: POST,
     HEAD: HEAD,
     httpsHEAD: httpsHEAD
@@ -135,6 +136,64 @@ function GET(link, callback) {
             }
             
             callback(body);
+        });
+    });
+    
+    req.on("error", function (err) {
+        callback("");
+    });
+    
+    req.end();
+}
+
+function GETImage(link, callback) {
+    var urlobject = url.parse(link);
+    
+    var query = "";
+    if (urlobject.query) {
+        query += "?" + urlobject.query;
+    }
+    
+    var req = http.request({
+        host: urlobject.hostname,
+        path: urlobject.pathname + query,
+        port: urlobject.port,
+        method: "GET",
+        headers: {
+            "Host": urlobject.hostname,
+            "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "nl,en-US;q=0.7,en;q=0.3",
+            "Accept-Encoding": "gzip, deflate",
+            "Referer": link,
+            "Content-Type": "image/png",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1"
+        }
+    }, function (res) {
+        var chunks = [];
+        
+        res.on("data", function (chunk) {
+            chunks.push(chunk);
+        });
+        res.on("end", function () {
+            var buffer = Buffer.concat(chunks);
+            var body;
+            
+            switch (res.headers["content-encoding"]) {
+                case "gzip":
+                    body = zlib.gunzipSync(buffer).toString("base64");
+                    break;
+                    
+                case "deflate":
+                    body = zlib.inflateSync(buffer).toString("base64");
+                    break;
+                    
+                default:
+                    body = buffer.toString("base64");
+            }
+            
+            callback("data:image/png;base64," + body);
         });
     });
     

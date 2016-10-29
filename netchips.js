@@ -1,7 +1,8 @@
-var express = require("express");
 var bodyParser = require("body-parser");
-var querystring = require("querystring");
+var express = require("express");
 var fs = require("fs");
+var querystring = require("querystring");
+var tools = require("./tools");
 
 var dir1 = "./netchips_modules/";
 var dir2 = "hosts/";
@@ -318,8 +319,12 @@ function start(version) {
                 
             case "storage_get":
                 try {
-                    var content = fs.readFileSync(__dirname + "/netchips_data.json", "utf8");
-                    sendString(content);
+                    var data = JSON.parse(fs.readFileSync(__dirname + "/netchips_data.json", "utf8"));
+                    var keys = Object.keys(data.series);
+                    console.log(keys);
+                    replaceImages(data.series, keys, 0, function () {
+                        send(data);
+                    });
                 } catch (err) {};
                 break;
                 
@@ -374,4 +379,26 @@ function findVideo(hosts, callback, i, j) {
             callback("", video, i, j + 1);
         }
     });
+}
+
+function replaceImages(list, keys, index, callback) {
+    if (index == keys.length) {
+        callback();
+        return;
+    }
+    
+    var image = list[keys[index]].image;
+    
+    if (image.indexOf("data:") != 0) {
+        tools.GETImage(image, function (src) {
+            list[keys[index]].image = src;
+            setTimeout(function () {
+                replaceImages(list, keys, index + 1, callback);
+            }, 0);
+        });
+    } else {
+        setTimeout(function () {
+            replaceImages(list, keys, index + 1, callback);
+        }, 0);
+    }
 }

@@ -92,9 +92,11 @@ function getSearchSuggestions(link, callback) {
             return;
         }
         
-        callback("", {
-            last: html.indexOf("Next Page</a>") < 0,
-            list: suggestions
+        replaceImages(suggestions, 0, function () {
+            callback("", {
+                last: html.indexOf("Next Page</a>") < 0,
+                list: suggestions
+            });
         });
     });
 }
@@ -168,10 +170,26 @@ function getGeneralSuggestions(link, callback) {
             return;
         }
         
-        callback("", {
-            last: false,
-            list: suggestions
+        replaceImages(suggestions, 0, function () {
+            callback("", {
+                last: false,
+                list: suggestions
+            });
         });
+    });
+}
+
+function replaceImages(suggestions, index, callback) {
+    if (index == suggestions.length) {
+        callback();
+        return;
+    }
+    
+    netchips.GETImage(suggestions[index].image, function (src) {
+        suggestions[index].image = src;
+        setTimeout(function () {
+            replaceImages(suggestions, index + 1, callback);
+        }, 0);
     });
 }
 
