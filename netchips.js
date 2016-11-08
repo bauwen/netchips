@@ -292,7 +292,7 @@ function start(version) {
                 break;
                 
             case "series_episode":
-                var link = "http://the-watch-series.to" + req.body.link;
+                var link = /*"http://the-watch-series.to" + */req.body.link;
                 var ii = req.body.i;
                 var jj = req.body.j;
                 
@@ -320,8 +320,18 @@ function start(version) {
             case "storage_get":
                 try {
                     var data = JSON.parse(fs.readFileSync(__dirname + "/netchips_data.json", "utf8"));
+                    
+                    for (var episode in data.episodes) {
+                        if (data.episodes.hasOwnProperty(episode)) {
+                            if (episode.indexOf("http://") != 0) {
+                                data.episodes["http://the-watch-series.to" + episode] = true;
+                                delete data.episodes[episode];
+                            }
+                        }
+                    }
+                    
                     var keys = Object.keys(data.series);
-                    console.log(keys);
+                    
                     replaceImages(data.series, keys, 0, function () {
                         send(data);
                     });
