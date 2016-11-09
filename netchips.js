@@ -253,7 +253,7 @@ function start(version) {
                 break;
                 
             case "series_info":
-                var link = "http://the-watch-series.to" + req.body.link;
+                var link = /*"http://the-watch-series.to" + */req.body.link;
                 
                 watchseries.getInfo(link, function (err, result) {
                     if (err) {
@@ -275,7 +275,7 @@ function start(version) {
                 
             case "series_seasons":
                 var rel = req.body.link;
-                var link = "http://the-watch-series.to" + rel;
+                var link = /*"http://the-watch-series.to" + */rel;
                 
                 watchseries.getSeasons(link, function (err, result) {
                     if (err) {
@@ -321,6 +321,7 @@ function start(version) {
                 try {
                     var data = JSON.parse(fs.readFileSync(__dirname + "/netchips_data.json", "utf8"));
                     
+                    // compatibility stuff
                     for (var episode in data.episodes) {
                         if (data.episodes.hasOwnProperty(episode)) {
                             if (episode.indexOf("http://") != 0) {
@@ -330,11 +331,23 @@ function start(version) {
                         }
                     }
                     
+                    for (var serie in data.series) {
+                        if (data.series.hasOwnProperty(serie)) {
+                            if (serie.indexOf("http://") != 0) {
+                                data.series[serie].link = "http://the-watch-series.to" + data.series[serie].link;
+                                data.series["http://the-watch-series.to" + serie] = data.series[serie];
+                                delete data.series[serie];
+                            }
+                        }
+                    }
+                    
                     var keys = Object.keys(data.series);
                     
                     replaceImages(data.series, keys, 0, function () {
                         send(data);
                     });
+                    // end of compatibility stuff
+                    
                 } catch (err) {};
                 break;
                 
