@@ -69,6 +69,9 @@ var procedures = [
     "vidshark.ws", vidshark.flash
 ];
 
+var URL_FILMS = "www.zmovie.tw";
+var URL_SERIES = "onwatchseries.to";
+
 var DEFAULT_PORT = 3000;
 var callback = null;
 
@@ -110,7 +113,7 @@ function start(version) {
         res.sendFile(__dirname + "/index.html");
     });
 
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({limit: "5mb"}));
 
     app.post("/", function (req, res) {
         var send = function (obj) {
@@ -137,7 +140,7 @@ function start(version) {
                 break;
                 
             case "films_general":
-                zmovie.getGeneralSuggestions("http://www.zmovie.tw/movies/recent_update", function (err, result) {
+                zmovie.getGeneralSuggestions("http://" + URL_FILMS + "/movies/recent_update", function (err, result) {
                     if (err) {
                         send({error: err});
                     } else {
@@ -153,7 +156,7 @@ function start(version) {
                 var query = querystring.escape(req.body.query);
                 var page = req.body.page;
                 
-                zmovie.getSearchSuggestions("http://www.zmovie.tw/search/title/" + query + "/" + page, function (err, result) {
+                zmovie.getSearchSuggestions("http://" + URL_FILMS + "/search/title/" + query + "/" + page, function (err, result) {
                     if (err) {
                         send({error: err});
                     } else {
@@ -170,7 +173,7 @@ function start(version) {
                 var genre = req.body.genre;
                 var page = req.body.page;
                 
-                zmovie.getGenreSuggestions("http://www.zmovie.tw/search/genre/" + genre + "/" + page, function (err, result) {
+                zmovie.getGenreSuggestions("http://" + URL_FILMS + "/search/genre/" + genre + "/" + page, function (err, result) {
                     if (err) {
                         send({error: err});
                     } else {
@@ -223,7 +226,7 @@ function start(version) {
             case "series_general":
                 var page = req.body.page;
                 
-                watchseries.getGeneralSuggestions("http://the-watch-series.to/series/" + page, function (err, result) {
+                watchseries.getGeneralSuggestions("http://" + URL_SERIES + "/series/" + page, function (err, result) {
                     if (err) {
                         send({error: err});
                     } else {
@@ -239,7 +242,7 @@ function start(version) {
                 var query = querystring.escape(req.body.query);
                 var page = req.body.page;
                 
-                watchseries.getSearchSuggestions("http://the-watch-series.to/search/" + query + "/page/" + page + "/sortby/MATCH", function (err, result) {
+                watchseries.getSearchSuggestions("http://" + URL_SERIES + "/search/" + query + "/page/" + page + "/sortby/MATCH", function (err, result) {
                     if (err) {
                         send({error: err});
                     } else {
@@ -253,7 +256,7 @@ function start(version) {
                 break;
                 
             case "series_info":
-                var link = /*"http://the-watch-series.to" + */req.body.link;
+                var link = /*"http://" + URL_SERIES + */req.body.link;
                 
                 watchseries.getInfo(link, function (err, result) {
                     if (err) {
@@ -275,7 +278,7 @@ function start(version) {
                 
             case "series_seasons":
                 var rel = req.body.link;
-                var link = /*"http://the-watch-series.to" + */rel;
+                var link = /*"http://" + URL_SERIES + */rel;
                 
                 watchseries.getSeasons(link, function (err, result) {
                     if (err) {
@@ -292,7 +295,7 @@ function start(version) {
                 break;
                 
             case "series_episode":
-                var link = /*"http://the-watch-series.to" + */req.body.link;
+                var link = /*"http://" + URL_SERIES + */req.body.link;
                 var ii = req.body.i;
                 var jj = req.body.j;
                 
@@ -325,7 +328,11 @@ function start(version) {
                     for (var episode in data.episodes) {
                         if (data.episodes.hasOwnProperty(episode)) {
                             if (episode.indexOf("http://") != 0) {
-                                data.episodes["http://the-watch-series.to" + episode] = true;
+                                data.episodes["http://" + URL_SERIES + episode] = true;
+                                delete data.episodes[episode];
+                            }
+                            else if (episode.indexOf("http://the-watch-series.to") == 0) {
+                                data.episodes["http://" + URL_SERIES + episode.slice("http://the-watch-series.to".length)] = true;
                                 delete data.episodes[episode];
                             }
                         }
@@ -334,8 +341,13 @@ function start(version) {
                     for (var serie in data.series) {
                         if (data.series.hasOwnProperty(serie)) {
                             if (serie.indexOf("http://") != 0) {
-                                data.series[serie].link = "http://the-watch-series.to" + data.series[serie].link;
-                                data.series["http://the-watch-series.to" + serie] = data.series[serie];
+                                data.series[serie].link = "http://" + URL_SERIES + data.series[serie].link;
+                                data.series["http://" + URL_SERIES + serie] = data.series[serie];
+                                delete data.series[serie];
+                            }
+                            else if (serie.indexOf("http://the-watch-series.to") == 0) {
+                                data.series[serie].link = "http://" + URL_SERIES + data.series[serie].link.slice("http://the-watch-series.to".length);
+                                data.series["http://" + URL_SERIES + serie.slice("http://the-watch-series.to".length)] = data.series[serie];
                                 delete data.series[serie];
                             }
                         }
