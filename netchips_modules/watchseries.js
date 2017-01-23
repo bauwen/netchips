@@ -28,7 +28,8 @@ function getSearchSuggestions(link, callback) {
         var suggestions = [];
         var error = false;
             
-        $('div[style="float:left; width:639px;"]').each(function () {
+        //$('div[style="float:left; width:639px;"]').each(function () {
+        $('div[class="search-item-left"]').each(function () {
             var suggestionElement = $(this);
             
             var div = $('div[style="padding-left: 10px;"]', suggestionElement).eq(0);
