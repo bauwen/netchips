@@ -70,7 +70,7 @@ var procedures = [
 ];
 
 var URL_FILMS = "www.zmovie.tw";
-var URL_SERIES = "mywatchseries.to";
+var URL_SERIES = "ewatchseries.to";
 
 var DEFAULT_PORT = 3000;
 var callback = null;
@@ -339,6 +339,10 @@ function start(version) {
                                 data.episodes["http://" + URL_SERIES + episode.slice("http://onwatchseries.to".length)] = true;
                                 delete data.episodes[episode];
                             }
+                            else if (episode.indexOf("http://mywatchseries.to") == 0) {
+                                data.episodes["http://" + URL_SERIES + episode.slice("http://mywatchseries.to".length)] = true;
+                                delete data.episodes[episode];
+                            }
                         }
                     }
                     
@@ -357,6 +361,11 @@ function start(version) {
                             else if (serie.indexOf("http://onwatchseries.to") == 0) {
                                 data.series[serie].link = "http://" + URL_SERIES + data.series[serie].link.slice("http://onwatchseries.to".length);
                                 data.series["http://" + URL_SERIES + serie.slice("http://onwatchseries.to".length)] = data.series[serie];
+                                delete data.series[serie];
+                            }
+                            else if (serie.indexOf("http://mywatchseries.to") == 0) {
+                                data.series[serie].link = "http://" + URL_SERIES + data.series[serie].link.slice("http://mywatchseries.to".length);
+                                data.series["http://" + URL_SERIES + serie.slice("http://mywatchseries.to".length)] = data.series[serie];
                                 delete data.series[serie];
                             }
                         }
