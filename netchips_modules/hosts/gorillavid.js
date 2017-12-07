@@ -41,9 +41,9 @@ function HTML5(link, callback) {
 }
 
 function searchVideo(html, $, callback) {
-    var pos = html.indexOf('.mp4"');
+    var pos = html.indexOf(".mp4'");
     if (pos < 0) {
-        pos = html.indexOf(".mp4'");
+        pos = html.indexOf('.mp4"');
         if (pos < 0) {
             callback("No video found");
             return;
