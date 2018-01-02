@@ -110,7 +110,8 @@ function GET(link, callback) {
             "Accept-Language": "nl,en-US;q=0.7,en;q=0.3",
             "Accept-Encoding": "gzip, deflate",
             "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1"
+            "Upgrade-Insecure-Requests": "1",
+			"Referer": urlobject.hostname
         }
     }, function (res) {
         var chunks = [];
