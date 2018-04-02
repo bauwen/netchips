@@ -355,6 +355,11 @@ function start(version) {
                                 data.episodes["http://" + URL_SERIES + episode.slice("http://itswatchseries.to".length)] = true;
                                 delete data.episodes[episode];
                             }
+                            
+                            if (episode.indexOf("https://") == 0) {
+                                data.episodes["http" + episode.slice(episode.indexOf("://"))] = true;
+                                delete data.episodes[episode];
+                            }
                         }
                     }
                     

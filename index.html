@@ -937,6 +937,8 @@ function watch(link, n, on) {
 }
 
 function styleWatchButton(button, link, n) {
+    link = "http" + link.slice(link.indexOf("://"));  // compatibility
+
     if (storage.episodes.hasOwnProperty(link)) {
         button.setAttribute("class", "watchbutton");
         button.setAttribute("onclick", 'watch("' + link + '", ' + n + ', false)');
@@ -1025,6 +1027,8 @@ function goHome() {
                         var episode = season[k];
                         var link = episode.link;
                         var title = episode.title;
+                        
+                        link = "http" + link.slice(link.indexOf("://"));  // compatibility
                         
                         if (storage.episodes.hasOwnProperty(link)) {
                             found = true;
