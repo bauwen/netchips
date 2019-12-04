@@ -1,0 +1,10 @@
+{
+    "name": "Netchips",
+    "version": "3.0.0",
+    "description": "Watch complete movies and series, just from the world wide web.",
+    "dependencies": {
+        "express": "4.14.0",
+        "body-parser": "1.15.2",
+        "cheerio": "0.22.0"
+    }
+}
