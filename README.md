@@ -1,18 +1,15 @@
 # Netchips
 
-Netchips is a cross-platform application that lets you watch your favorite movies and series. You can select the films and TV shows you want to watch in the future and it will notify you when a new episode is available.
+Netchips is een "cross-platform" applicatie die je toelaat om je favoriete films en series te bekijken. Je kan films en series selecteren die je later wilt bekijken en de applicatie zal aangeven wanneer een nieuwe episode beschikbaar is.
 
-Netchips is built using [Electron](https://electronjs.org/). It scrapes various websites for relevant metadata and video content. The application updates automatically when a new update is available.
+Netchips is gemaakt met [Electron](https://electronjs.org/). Het schraapt (*scrapes*) informatie van verschillende websites voor relevante metadata en video's. De applicatie updatet automatisch wanneer een nieuwe update beschikbaar is.
 
-## Dependency
+Sommige films vereisen Flash Player-functionaliteit om af te kunnen spelen. De [Pepper Flash plugin](https://electronjs.org/docs/tutorial/using-pepper-flash-plugin) moet daarom worden opgenomen in de *root directory*. Dit is afhankelijk van het besturingssysteem.
 
-In order to watch some of the movies, Flash Player functionality is required. The [Pepper Flash plugin](https://electronjs.org/docs/tutorial/using-pepper-flash-plugin) must be included in the root directory.
+## Noot
 
-
-## Note
-
-This project is no longer maintained. It worked awesomely between 2014 and 2018.
+Dit project wordt niet meer onderhouden. Netchips werd actief gebruikt tussen 2014 en 2018.
 
 ## Screenshot
 
-![alt text](./image.png "Popular series page")
+![alt text](./image.png "Populaire series")
