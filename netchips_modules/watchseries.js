@@ -403,7 +403,7 @@ function getSeasonsList($) {
             }
         });
         
-        seasons.unshift(season);
+        seasons.unshift(season); 
     });
     
     return seasons;
